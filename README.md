@@ -36,9 +36,10 @@ This project was developed as an **academic and learning-based project** with a 
 - XAMPP / WAMP (Local development)
 - Git & GitHub
 
----
 
-## 📂 Project Structure
+```
+
+📂 Project Structure
 ChefAI/
 ├── public/ 
 │ ├── index.html
@@ -64,18 +65,28 @@ ChefAI/
 ├── README.md
 
 
-## ⚙️ Setup Instructions (Local)
+```
+⚙️ Setup Instructions (Local)
 
-1. **Clone the repository**
+1. Clone the repository
+```
     git clone https://github.com/USERNAME/ChefAI-AI-Recipe-Generator.git
-**2. Move the project**
-   -Place the folder inside:
-      -htdocs (XAMPP) or www (WAMP)
-**3. Install dependencies**
+```
+3. Move the project
+```
+   -Place the folder inside: htdocs (XAMPP) or www (WAMP)
+```
+4. Install dependencies
+```
    -composer install
-**4. Configure**
+```
+5. Configure
+```
    -Add database credentials in config/db_connect.php
    -Add your Gemini API key securely
-**5. Run the project**
+```
+6. Run the project
+```
     http://localhost/ChefAI/public
+```
 
