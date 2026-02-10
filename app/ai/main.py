@@ -33,7 +33,7 @@ def generate_recipe(ingredients, api_key):
         return f"Error generating recipe: {str(e)}"
 
 if __name__ == "__main__":
-    api_key = 'AIzaSyCdWrQqgChjPGZJCspri90Kv778r-PQh3g'  # Your API key
+    api_key = '# Your API key'
 
     if len(sys.argv) > 1:
         ingredients = sys.argv[1].split(',')  # Get ingredients from command line args
