@@ -1,0 +1,317 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700");
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: white;
+    font-family: "PT Sans", sans-serif;
+    width: 100%;
+    -webkit-font-smoothing: antialiased;
+	min-height: 100vh;
+    overflow-x: hidden;
+}
+
+
+.container1 {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    height: 100vh;
+    width: 100%;
+    background: #fff;    
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;  
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+
+    
+  #createCookbookBtn {
+    background-color: #da9e69;
+    color: white;
+    border: 1px;
+    padding: 10px 15px;
+    border-radius: 15px;
+    cursor: pointer;
+    margin-top: 50px;
+    margin-bottom: 60px;
+  }
+  
+.btn-primary{
+  background-color: #da9e69;
+  border: none;
+  text-decoration: none;
+
+}
+.btn-primary:hover{
+  text-decoration: none;
+  background-color: #da9e69;
+  border: none;
+}
+  
+  
+  #cookbookContainer {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap to the next row */
+    gap: 15px; /* Space between cookbooks */
+    justify-content: flex-start; /
+  }
+  
+ 
+  .cookbook {
+    background: #f1f1f1;
+    padding: 15px;
+    border-radius: 5px;
+    width: 220px; /* Fixed width for uniform size */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column; /* Arrange content vertically inside */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+  .cookbook {
+      width: 100%; /* Make cookbooks take full width on small screens */
+  }
+} 
+.cookbook-header {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+input[type="text"] {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    
+}
+
+  .cookbook-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 10px;
+  }
+  
+  .action-btn {
+    background: #da9e69;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .modal-content input[type="text"] {
+    width: 90%; /* Adjust input box width */
+    margin: 10px 0 20px; /* Add spacing around the input */
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    
+}
+
+#saveCookbookBtn {
+  background: #da9e69;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100px; /* Button width */
+  text-align: center;
+  margin-top: 10px; /* Add spacing above button */
+  transition: 0.3s;
+}
+
+#saveCookbookBtn:hover {
+  background: #cc8a50;
+}
+  #cookbookName{
+    display: flex;
+    align-items: center;
+
+  }
+
+  .action-btn:hover {
+    background: #cc8a50;
+  }
+  
+  .modal {
+    display: flex; /* Use flex for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 9999; /* Ensure it is on top */
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px; /* Modal width */
+    max-width: 50%; /* Responsive */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column; /* Arrange children vertically */
+    align-items: center;
+    position: relative; 
+  }
+  
+  .modal-content h3 {
+    margin-bottom: 20px; /* Add spacing below the title */
+    text-align: center; /* Center the heading text */
+}
+span.close {
+  position: absolute; /* Position it relative to the modal-content */
+  top: 10px; /* Adjust distance from the top */
+  right: 10px; /* Adjust distance from the right */
+  font-size: 20px;
+  font-weight: bold;
+  color: #999;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+span.close:hover {
+  color: #555;
+}
+
+
+.card{
+  display: flex; /* Use flex for centering */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+   
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  z-index: 9999; /* Ensure it is on top */
+
+}
+
+
+.cookbook-card h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.cookbook-card p {
+  font-size: 14px;
+  color: #555;
+}
+
+.cookbook-card .view-cookbook {
+  padding: 8px 12px;
+  background-color: #cc8a50;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.cookbook-card .view-cookbook:hover {
+  background-color: #cc8a50;
+}
+
+/* Style for cookbook cards */
+.cookbook-card {
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 250px;
+}
+
+/* Style for the success message */
+.success-message {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #cc8a50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  z-index: 9999;
+  animation: fadeInOut 3s forwards;
+}
+
+
+/* Animation for success message */
+@keyframes fadeInOut {
+  0% {
+      opacity: 0;
+  }
+  10% {
+      opacity: 1;
+  }
+  90% {
+      opacity: 1;
+  }
+  100% {
+      opacity: 0;
+  }
+}
+
+.empty-message {
+  display: none; /* Hidden by default */
+  color: #999;
+  text-align: center;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.empty-message {
+  display: none !important;
+}
+
+.cookbookTitle {
+  background-color: #fef9f5; /* Light background to match a cookbook theme */
+  /* Border matching the title color */
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px;
+  margin: 20px 0; /* Space around the card */
+  text-align: center; /* Center-align content */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.cookbookTitle h2 {
+  color: #cc8a50; /* The title color */
+  font-size: 2rem; /* Make the title larger */
+  font-weight: bold; /* Make the title bold */
+  margin-bottom: 10px; /* Add space below the title */
+}
+
+.cookbookTitle p {
+  color: #5a5a5a; /* Neutral text color for the description */
+  font-size: 1.1rem; /* Slightly larger text */
+  margin: 0; /* Remove default paragraph margin */
+}
+
+
+
+
+

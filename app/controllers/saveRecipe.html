@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>ChefAI - Save Recipe</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style_cook.css">
+  <link rel="icon" href="favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+  <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+  <link rel="icon" href="favicon.png" type="image/x-icon">
+</head>
+<body>
+
+<header class="header-area">
+  <div class="logo-area">
+    <a href="index.html"><img src="logo_chefAI.png" alt="" width="150px" height="100px"></a>
+  </div>
+  <div class="container">
+    <nav>
+      <div class="classynav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="recipe.html">Recipes</a></li>
+          <li><a href="cookbook.html">Cookbooks</a></li>
+          <li><a href="#">Meal Planner</a></li>
+          <li><a href="profile.php">Profile</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<div class="container mt-5">
+  <h2 class="text-center">Choose a Cookbook to Save Your Recipe</h2>
+  <div id="cookbookContainer" class="row mt-4">
+    <p class="text-center w-100">Loading cookbooks...</p>
+  </div>
+</div>
+
+<!-- Place your script here, just before the closing </body> tag -->
+<script>
+  document.addEventListener("DOMContentLoaded", async () => {
+    const userId = await getUserId();
+
+    if (!userId) {
+      alert("User not logged in!");
+      window.location.href = "login.php"; // Redirect to the login page
+      return;
+    }
+
+    const recipeId = new URLSearchParams(window.location.search).get("recipeId");
+    const cookbookContainer = document.getElementById("cookbookContainer");
+
+    // Fetch available cookbooks
+    async function fetchCookbooks() {
+      try {
+        const response = await fetch(`/ChefAI/getCookbooks.php?user_id=${userId}`);
+        const cookbooks = await response.json();
+
+        if (cookbooks.error) {
+          console.error(cookbooks.error);
+          cookbookContainer.innerHTML =
+            '<p class="text-center w-100 text-danger">Error loading cookbooks. Please try again later.</p>';
+          return;
+        }
+
+        if (cookbooks.length > 0) {
+          cookbookContainer.innerHTML = ""; // Clear loading message
+
+          cookbooks.forEach((cookbook) => {
+            const cookbookCard = document.createElement("div");
+            cookbookCard.className = "col-md-4 mb-4";
+            cookbookCard.innerHTML = `
+              <div class="card">
+                <div class="card-body text-center">
+                  <h5 class="card-title">${cookbook.name}</h5>
+                  <button class="btn btn-success" onclick="saveRecipeToCookbook(${recipeId}, ${cookbook.id})">Save to this Cookbook</button>
+                </div>
+              </div>
+            `;
+            cookbookContainer.appendChild(cookbookCard);
+          });
+        } else {
+          cookbookContainer.innerHTML =
+            '<p class="text-center w-100">No cookbooks available. Create one to save recipes!</p>';
+        }
+      } catch (error) {
+        console.error("Error fetching cookbooks:", error);
+        cookbookContainer.innerHTML =
+          '<p class="text-center w-100 text-danger">Error loading cookbooks. Please try again later.</p>';
+      }
+    }
+
+    // Save recipe to a specific cookbook
+    window.saveRecipeToCookbook = async function (recipeId, cookbookId) {
+      try {
+        console.log("Sending to server:", { recipeId, cookbookId, userId }); // Log the data being sent
+
+        const response = await fetch('/ChefAI/saveRecipe.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ recipeId, cookbookId, userId })
+        });
+
+        const data = await response.json();
+        console.log("Server Response:", data); // Log the server's response
+
+        if (response.ok) {
+          alert("Recipe saved successfully!");
+          window.location.href = `cookbook.html?id=${cookbookId}`; // Redirect to the cookbook page
+        } else {
+          console.error('Error from server:', data.error);
+          alert("Error saving recipe. Please try again.");
+        }
+      } catch (error) {
+        console.error("Error saving recipe:", error);
+        alert("Error saving recipe. Please try again.");
+      }
+    }
+
+    // Initialize cookbooks
+    fetchCookbooks();
+  });
+
+  // Fetch user ID from the server using get_user.php
+  async function getUserId() {
+    try {
+      const response = await fetch('/ChefAI/get_user.php');
+      const data = await response.json();
+      console.log("Fetched user ID:", data.user_id);  // Log user ID to console
+      return data.user_id || null; // Return user_id if found
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      return null;
+    }
+  }
+</script>
+
+<footer class="footer-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5">
+        <div class="fs-left">
+          <div class="logo">
+            <a href="./index.html"><img src="logo_chefAI.png" alt=""></a>
+          </div>
+          <p>Cooking made effortless, flavors made unforgettable — ChefAI, your partner in the kitchen.</p>
+        </div>
+      </div>
+      <div class="col-lg-6 offset-lg-1">
+        <form action="#" class="subscribe-form">
+          <h3>Subscribe to our newsletter</h3>
+          <input type="email" placeholder="Your e-mail">
+          <button type="submit">Subscribe</button>
+        </form>
+        <div class="social-links">
+          <a href="#"><i class="fa fa-instagram"></i><span>Instagram</span></a>
+          <a href="#"><i class="fa fa-pinterest"></i><span>Pinterest</span></a>
+          <a href="#"><i class="fa fa-facebook"></i><span>Facebook</span></a>
+          <a href="#"><i class="fa fa-twitter"></i><span>Twitter</span></a>
+          <a href="#"><i class="fa fa-youtube"></i><span>Youtube</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

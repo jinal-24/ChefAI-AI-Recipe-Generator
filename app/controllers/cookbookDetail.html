@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cookbook Details</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+  <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css"> 
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style_cook.css">
+  <link rel="icon" href="favicon.png" type="image/x-icon">
+</head>
+<body>
+  
+<header class="header-area">
+  <div class="logo-area">
+    <a href="index.html"><img src="logo_chefAI.png" alt="" width="150px" height="100px"></a>
+  </div>
+  <div class="container">
+    <nav>
+      <div class="classynav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="recipe.html">Recipes</a></li>
+          <li><a href="cookbook.html">Cookbooks</a></li>                                                                           
+          <li><a href="#">Meal Planner</a></li>                     
+          <li><a href="profile.php">Profile</a></li>                                   
+        </ul>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main class="container mt-4">
+  <div id="cookbookTitle" class="cookbookTitle">
+  </div>
+
+  <div id="recipeContainer" class="row">
+    <!-- Recipes will be dynamically loaded here -->
+    <p id="emptyMessage" class="text-center w-100">No recipes added yet. Click "Save Recipe" to get started!</p>
+  </div>
+
+  
+</main>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const cookbookId = new URLSearchParams(window.location.search).get("id");
+    const recipeContainer = document.getElementById("recipeContainer");
+    const emptyMessage = document.getElementById("emptyMessage");
+    const cookbookTitle = document.getElementById("cookbookTitle");
+
+    // Fetch recipes and cookbook details from the server
+    function fetchCookbookDetails() {
+        fetch(`fetchRecipes.php?cookbook_id=${cookbookId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Display the cookbook name
+                    cookbookTitle.innerHTML = `
+                        <h2>${data.cookbook_name}</h2>
+                        <p class="text-center">Manage recipes for this cookbook below.</p>
+                    `;
+
+                    // Handle recipes
+                    if (data.recipes.length === 0) {
+                        emptyMessage.style.display = "block";
+                    } else {
+                        emptyMessage.style.display = "none";
+                        data.recipes.forEach(recipe => displayRecipe(recipe));
+                    }
+                } else {
+                    console.error("Failed to fetch cookbook details.");
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching cookbook details:", error);
+                alert("Failed to fetch cookbook details. Check the console for details.");
+            });
+    }
+
+    // Display a recipe card
+    function displayRecipe(recipe) {
+        const card = document.createElement("div");
+        card.className = "col-md-4 mb-3";
+        card.innerHTML = `
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">${recipe.recipe_name}</h5>
+                    <a href="${recipe.url}" class="btn btn-primary" id="btn-primary">View Recipe</a>
+                </div>
+            </div>
+        `;
+        recipeContainer.appendChild(card);
+    }
+
+    // Call the function to fetch cookbook details
+    fetchCookbookDetails();
+});
+
+</script>
+</body>
+</html>
